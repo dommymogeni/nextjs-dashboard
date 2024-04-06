@@ -4,7 +4,7 @@ import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 
 // removed fetchRevenue
-import {fetchLatestInvoices,fetchCardData} from '@/app/lib/data';
+import {fetchCardData} from '@/app/lib/data';
 
 // configuring the suspense
 import { Suspense } from 'react';
@@ -12,7 +12,7 @@ import { RevenueChartSkeleton } from '@/app/ui/skeletons';
 
 export default async function Page() {
   // const revenue = await fetchRevenue();
-  const latestInvoices = await fetchLatestInvoices();
+  // const latestInvoices = await fetchLatestInvoices();
   const { totalPaidInvoices, totalPendingInvoices, numberOfInvoices, numberOfCustomers } = await fetchCardData();
 
   return (
@@ -35,7 +35,11 @@ export default async function Page() {
         <Suspense fallback={<RevenueChartSkeleton />}>
           <RevenueChart />
         </Suspense>
-        <LatestInvoices latestInvoices={latestInvoices} />
+        
+        {/* <LatestInvoices latestInvoices={latestInvoices} /> */}
+        <Suspense fallback={ <LatestInvoicesSkeleton /> }>
+          <LatestInvoices />
+        </Suspense>
       </div>
     </main>
   );
